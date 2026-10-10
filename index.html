@@ -1,0 +1,849 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070b15">
+<title>SocialShield | Cyber Intelligence Center</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#070b15;
+  --panel:#101a2d;
+  --line:rgba(139,166,210,.18);
+  --text:#edf4ff;
+  --muted:#9aabc7;
+  --blue:#65a2ff;
+  --cyan:#4ce7dc;
+  --green:#70f0b0;
+  --purple:#b193ff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+body{
+  margin:0;
+  background:radial-gradient(850px 600px at 80% -10%,#172a4c,transparent 65%),var(--bg);
+  color:var(--text);
+  font-family:Manrope,Arial,sans-serif;
+  font-size:15px;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.app{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}
+.sidebar{
+  position:sticky;top:0;height:100vh;overflow:auto;
+  padding:24px 15px;background:#080e1df0;
+  border-right:1px solid var(--line);z-index:20
+}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;padding:3px 8px 25px}
+.brand-icon{
+  width:43px;height:43px;display:grid;place-items:center;
+  border-radius:13px;background:linear-gradient(135deg,#245b99,#15233d);
+  border:1px solid #568edf;font-size:23px;
+  box-shadow:0 0 25px #468dff25
+}
+.brand-name{font-weight:800;font-size:19px}
+.brand-sub{color:var(--cyan);font:10px "DM Mono",monospace;letter-spacing:1.4px}
+.nav-label{
+  font:11px "DM Mono",monospace;color:#7488a8;
+  letter-spacing:1.4px;padding:18px 12px 8px
+}
+.nav-link{
+  display:flex;gap:10px;align-items:center;
+  padding:12px;width:100%;margin:3px 0;
+  color:#a6b7d1;border:1px solid transparent;border-radius:10px;
+  text-decoration:none;font-size:13px;font-weight:700;background:transparent;
+  text-align:left
+}
+.nav-link:hover,.nav-link.active{
+  background:#182945;border-color:#38537b;color:white
+}
+.nav-icon{width:20px;text-align:center}
+.sidebar-foot{
+  padding:14px;margin:24px 5px;border:1px solid var(--line);
+  border-radius:13px;background:#101b30
+}
+.status{color:var(--green);font:11px "DM Mono",monospace}
+.dot{
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 10px var(--green);
+  margin-right:7px;animation:pulse 1.6s infinite
+}
+@keyframes pulse{50%{opacity:.4}}
+.sidebar-foot p{font-size:12px;color:var(--muted);line-height:1.7}
+.main{min-width:0;padding:0 30px 40px}
+.topbar{
+  height:72px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;margin-bottom:26px
+}
+.crumb{font:11px "DM Mono",monospace;color:var(--muted)}
+.crumb strong{color:white}
+.top-actions{display:flex;align-items:center;gap:8px}
+.clock,.count-pill{
+  font:11px "DM Mono",monospace;color:var(--muted);
+  padding:10px;border:1px solid var(--line);border-radius:9px
+}
+.btn,.outline-btn,.filter-btn,.tiny-btn{
+  border:1px solid #334765;background:#14223a;color:#dce9ff;
+  border-radius:9px;padding:11px 13px;font-size:12px;font-weight:800;
+  transition:.18s
+}
+.btn:hover,.outline-btn:hover,.filter-btn:hover,.tiny-btn:hover{
+  border-color:var(--blue);background:#1c3151
+}
+.primary{
+  background:linear-gradient(110deg,#73aaff,#61e6dc);
+  color:#081321;border:0
+}
+.primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.hero{
+  position:relative;overflow:hidden;border:1px solid #42618c77;
+  border-radius:22px;padding:34px;
+  background:linear-gradient(115deg,#132441f2,#0e1a2cef);
+  margin-bottom:20px;box-shadow:0 15px 55px #0003
+}
+.hero:after{
+  content:"";position:absolute;width:280px;height:280px;
+  border:1px solid #4ce7dc27;border-radius:50%;right:-55px;top:-125px;
+  box-shadow:0 0 0 30px #4ce7dc07,0 0 0 65px #65a2ff08;
+  pointer-events:none
+}
+.eyebrow{
+  font:11px "DM Mono",monospace;letter-spacing:1.4px;color:var(--cyan)
+}
+.hero h1{
+  font-size:clamp(32px,3.5vw,48px);
+  letter-spacing:-1.6px;line-height:1.13;margin:18px 0 13px
+}
+.gradient{
+  background:linear-gradient(100deg,#f6f8ff,#88b9ff 60%,#5ee7d9);
+  color:transparent;background-clip:text;-webkit-background-clip:text
+}
+.hero p{color:#a5b6d3;font-size:15px;line-height:1.85;max-width:690px}
+.hero-bottom{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:1}
+.hero-tag{border:1px solid var(--line);padding:9px 11px;border-radius:8px;color:#c2d1e8;font:11px "DM Mono",monospace}
+.hero-tag b{color:var(--cyan)}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:30px}
+.metric{
+  padding:19px;border:1px solid var(--line);border-radius:15px;
+  background:linear-gradient(145deg,#122039,#0c1424)
+}
+.metric-label{color:var(--muted);font:11px "DM Mono",monospace}
+.metric-value{font-size:30px;font-weight:800;margin:10px 0 4px}
+.metric-note{font-size:12px;color:#8699b7}
+.section{margin-top:34px;scroll-margin-top:85px}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:16px}
+.kicker{font:11px "DM Mono",monospace;color:var(--cyan);letter-spacing:1.4px;margin-bottom:7px}
+h2{font-size:24px;letter-spacing:-.5px;margin:0;font-weight:800}
+.sub{font-size:13px;color:var(--muted);line-height:1.7;margin:7px 0 0}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.panel{
+  padding:22px;border:1px solid var(--line);border-radius:16px;
+  background:#101a2de0;min-width:0
+}
+.panel-top{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+.panel-icon{
+  height:39px;width:39px;display:grid;place-items:center;
+  border:1px solid #40649a66;background:#1a2d4a;
+  border-radius:11px;font-size:18px
+}
+.panel h3{font-size:16px;margin:0}
+.panel-desc{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:15px}
+.label{display:block;color:#c3d1e7;font-size:11px;font-weight:800;margin-bottom:7px}
+.input-row{display:flex;gap:8px}
+.field{
+  flex:1;width:100%;min-width:0;background:#080e1b;color:white;
+  border:1px solid #30415d;border-radius:9px;padding:13px;
+  font-size:13px;outline:none
+}
+.field:focus{border-color:var(--blue);box-shadow:0 0 0 3px #65a2ff19}
+.field::placeholder{color:#657997}
+.result{
+  background:#080e1b;border:1px solid var(--line);border-radius:9px;
+  padding:13px;min-height:70px;color:#b9cbed;white-space:pre-wrap;
+  overflow-wrap:anywhere;font:11px/1.8 "DM Mono",monospace;
+  max-height:250px;overflow:auto;margin:13px 0 0
+}
+.module-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.module-card{
+  display:flex;flex-direction:column;min-height:168px;
+  padding:18px;border:1px solid var(--line);border-radius:15px;
+  background:linear-gradient(145deg,#13213a,#0b1425);
+  text-decoration:none;transition:.2s
+}
+.module-card:hover{transform:translateY(-4px);border-color:#659fff80;box-shadow:0 13px 30px #0003}
+.module-icon{
+  display:grid;place-items:center;width:41px;height:41px;
+  border-radius:11px;background:#1b3152;font-size:19px;margin-bottom:14px
+}
+.module-lab{font:10px "DM Mono",monospace;color:var(--cyan);margin-bottom:7px}
+.module-card h3{font-size:14px;margin:0 0 7px}
+.module-card p{font-size:12px;line-height:1.7;color:var(--muted);margin:0}
+.search-panel{padding:16px;border:1px solid var(--line);border-radius:15px;background:#101a2ddd;margin-bottom:13px}
+.search-row{display:flex;gap:9px;margin-bottom:13px}
+.search-box{position:relative;flex:1;min-width:0}
+.search-box span{position:absolute;left:13px;top:13px;color:#7184a2}
+.search-box input{padding-left:38px}
+.filters{display:flex;flex-wrap:wrap;gap:7px}
+.filter-btn{padding:9px 12px;color:#9bb0d0;font-size:11px}
+.filter-btn.active{background:linear-gradient(110deg,#55e0d4,#82b7ff);color:#081321;border-color:transparent}
+.inventory-meta{display:flex;justify-content:space-between;gap:10px;margin-bottom:13px;color:var(--muted);font:11px "DM Mono",monospace}
+.tool-lab{border:1px solid var(--line);border-radius:15px;margin-bottom:13px;overflow:hidden;background:#0d1627dd;scroll-margin-top:85px}
+.lab-heading{display:flex;align-items:center;gap:10px;padding:15px 17px;background:#17243b8c;border-bottom:1px solid var(--line)}
+.lab-badge{font:10px "DM Mono",monospace;color:var(--cyan);border:1px solid #4ce7dc38;background:#4ce7dc0b;border-radius:6px;padding:7px 8px;white-space:nowrap}
+.lab-title{font-size:13px;font-weight:800;flex:1}
+.lab-count{font:10px "DM Mono",monospace;color:var(--muted);white-space:nowrap}
+.tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;padding:12px}
+.tool-item{display:flex;gap:10px;align-items:flex-start;min-width:0;padding:12px;border:1px solid #a9c5ec15;border-radius:11px;background:#080f1de0;transition:.18s}
+.tool-item:hover{border-color:#65a2ff70;background:#111f35}
+.tool-no{
+  flex:0 0 29px;height:29px;border-radius:7px;background:#1a2d4a;
+  display:grid;place-items:center;color:#a9ccff;font:10px "DM Mono",monospace
+}
+.tool-content{min-width:0;flex:1}
+.tool-name{color:#e1ecff;text-decoration:none;font-size:12px;font-weight:800;overflow-wrap:anywhere}
+.tool-name:hover{color:var(--cyan)}
+.external{color:var(--cyan);font-size:10px}
+.tool-desc{display:block;color:#91a2bd;font-size:11px;line-height:1.75;margin-top:5px}
+.tool-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.tiny-btn{padding:6px 8px;font:10px "DM Mono",monospace;background:transparent;color:#8ea4c5;border-color:#8ea4c52a}
+.tiny-btn.saved{color:#ffce76;border-color:#ffce764d}
+.empty{display:none;padding:28px;text-align:center;color:var(--muted);border:1px solid var(--line);border-radius:12px}
+.faculty-card{
+  display:flex;align-items:center;gap:24px;padding:23px;
+  background:linear-gradient(135deg,#12223bf5,#0a1322f0);
+  border:1px solid var(--line);border-radius:18px
+}
+.faculty-photo{
+  width:145px;height:145px;object-fit:cover;object-position:center 25%;
+  flex:0 0 145px;border-radius:16px;border:2px solid #65a2ff90
+}
+.faculty-label{font:11px "DM Mono",monospace;color:var(--cyan);letter-spacing:1.2px}
+.faculty-info h3{font-size:24px;margin:10px 0 6px}
+.faculty-role{font-size:16px;color:#d9e5f8;margin:0 0 4px}
+.faculty-degree{color:var(--cyan);font-size:14px}
+.footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:#8193b0;border-top:1px solid var(--line);margin-top:35px;padding-top:19px;font:11px/1.8 "DM Mono",monospace}
+.toast{position:fixed;right:20px;bottom:20px;z-index:100;background:#192a45;border:1px solid #526f9a;color:white;border-radius:11px;padding:13px 16px;font-size:12px;max-width:350px;opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s}
+.toast.show{opacity:1;transform:translateY(0)}
+.mobile-menu{display:none}
+.compact .tool-item{padding:7px;min-height:55px}
+.tool-item[hidden],.tool-lab[hidden],#extraTools[hidden]{display:none!important}
+@media(max-width:1200px){
+  .app{grid-template-columns:215px minmax(0,1fr)}
+  .main{padding:0 20px 30px}
+  .module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:800px){
+  .app{display:block}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:255px;height:100vh;transform:translateX(-105%);transition:.25s;box-shadow:0 20px 60px #0009}
+  body.menu-open .sidebar{transform:translateX(0)}
+  .mobile-menu{display:inline-block}
+  .main{padding:0 14px 28px}
+  .topbar{height:62px;margin-bottom:18px}
+  .clock{display:none}
+  .hero{padding:24px}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid2{grid-template-columns:1fr}
+  .tool-grid{grid-template-columns:1fr}
+}
+@media(max-width:450px){
+  .module-grid{grid-template-columns:1fr}
+  .hero{padding:19px}
+  .hero h1{font-size:30px}
+  .input-row{flex-direction:column}
+  .top-actions .outline-btn{display:none}
+  .faculty-card{flex-direction:column;align-items:flex-start;padding:18px}
+  .faculty-photo{width:120px;height:120px;flex-basis:120px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="#top">
+    <span class="brand-icon">⬡</span>
+    <span>
+      <span class="brand-name">SocialShield</span>
+      <span class="brand-sub" style="display:block">CYBER INTELLIGENCE</span>
+    </span>
+  </a>
+
+  <div class="nav-label">Workspace</div>
+  <a class="nav-link active" href="#dashboard">◫ &nbsp; Overview</a>
+  <a class="nav-link" href="#url-checker">⌁ &nbsp; URL Intelligence</a>
+  <a class="nav-link" href="#domain-analyzer">◎ &nbsp; Domain Analysis</a>
+  <a class="nav-link" href="#modules">▦ &nbsp; Lab Modules</a>
+
+  <div class="nav-label">Tool Inventory</div>
+  <a class="nav-link" href="#lab2">◌ &nbsp; Lab 2 · Social Graphs</a>
+  <a class="nav-link" href="#lab3">⌘ &nbsp; Lab 3 · Web Security</a>
+  <a class="nav-link" href="#lab4">◎ &nbsp; Lab 4 · Domain Trust</a>
+  <a class="nav-link" href="#lab5">▧ &nbsp; Lab 5 · Image Search</a>
+  <a class="nav-link" href="#lab6">↗ &nbsp; Lab 6 · Phishing</a>
+  <a class="nav-link" href="#lab7">◈ &nbsp; Lab 7 · Privacy</a>
+  <a class="nav-link" href="#lab8">⌁ &nbsp; Lab 8 · Traffic</a>
+
+  <div class="nav-label">Quick Actions</div>
+  <button class="nav-link" id="sidebarFav">☆ &nbsp; Saved tools <span id="favNavCount" style="margin-left:auto;color:var(--cyan)">0</span></button>
+  <button class="nav-link" id="exportCsv">⇩ &nbsp; Export inventory CSV</button>
+
+  <div class="sidebar-foot">
+    <div class="status"><span class="dot"></span>INTERFACE ONLINE</div>
+    <p>Live analysis depends on your Flask backend and configured API credentials.</p>
+  </div>
+</aside>
+
+<main class="main" id="top">
+<header class="topbar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="btn mobile-menu" id="menuBtn" aria-label="Open menu">☰</button>
+    <div class="crumb">SOCIALSHIELD / <strong>INTELLIGENCE CENTER</strong></div>
+  </div>
+  <div class="top-actions">
+    <div class="clock" id="clock">LOCAL TIME</div>
+    <button class="outline-btn" id="favBtn">☆ Favorites <span id="favCount">0</span></button>
+    <button class="btn primary" id="jumpTools">Explore tools ↘</button>
+  </div>
+</header>
+
+<section class="hero" id="dashboard">
+  <div class="eyebrow"><span class="dot"></span> PSOSM LABS 02–08 · SECURITY WORKSPACE</div>
+  <h1><span class="gradient">One workspace.</span><br>Seven labs. Smarter security.</h1>
+  <p>Investigate URLs and domains, explore social networks, trace image origins, review archived websites, and learn privacy and traffic analysis — all from one interactive control center.</p>
+  <div class="hero-bottom">
+    <a class="btn primary" href="#url-checker" style="text-decoration:none">Start an analysis ↗</a>
+    <a class="outline-btn" href="#all-tools" style="text-decoration:none">Browse tools</a>
+    <span class="hero-tag"><b>●</b> 7 LAB MODULES</span>
+    <span class="hero-tag"><b id="heroTotal">46</b> TOOL REFERENCES</span>
+  </div>
+</section>
+
+<!-- FACULTY GUIDE -->
+<section class="section" id="faculty">
+  <div class="section-head">
+    <div><div class="kicker">FACULTY MENTOR</div><h2>Project Guidance</h2></div>
+  </div>
+  <article class="faculty-card">
+    <img class="faculty-photo"
+      src="{ https://www.kkwagh.edu.in/public/frontend/assets/uploads/faculty/397frt_shweta-rahul-wankhede.jpg }"
+      alt="Mrs. Shweta Rahul Wankhede, Assistant Professor"
+      loading="lazy">
+    <div>
+      <div class="faculty-label">FACULTY GUIDE</div>
+      <div class="faculty-info">
+        <h3>Mrs. Shweta Rahul Wankhede</h3>
+        <p class="faculty-role">Assistant Professor</p>
+        <p class="faculty-degree">M.E. (Digital System)</p>
+      </div>
+      <a class="btn primary" href="https://www.kkwagh.edu.in/engineering/faculty/shweta-rahul-wankhede/397" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none">Official Faculty Profile ↗</a>
+    </div>
+  </article>
+</section>
+
+<!-- COUNTERS -->
+<section class="metrics">
+  <div class="metric"><div class="metric-label">LAB MODULES</div><div class="metric-value">07</div><div class="metric-note">PSOSM Labs 2–8</div></div>
+  <div class="metric"><div class="metric-label">MAIN INVENTORY</div><div class="metric-value" id="mainTotal">41</div><div class="metric-note">Numbered entries from manuals</div></div>
+  <div class="metric"><div class="metric-label">EXTRA REFERENCES</div><div class="metric-value">05</div><div class="metric-note">Supplementary links</div></div>
+  <div class="metric"><div class="metric-label">INTERFACE</div><div class="metric-value" style="font-size:23px;color:var(--green)">LOCAL UI</div><div class="metric-note">API status checked on demand</div></div>
+</section>
+
+<!-- ANALYSIS FORMS -->
+<section class="section" id="analysis">
+  <div class="section-head">
+    <div><div class="kicker">LIVE ANALYSIS CONSOLE</div><h2>Threat &amp; Domain Intelligence</h2><p class="sub">These forms call your Flask endpoints. Results are not simulated.</p></div>
+  </div>
+  <div class="grid2">
+    <section class="panel" id="url-checker">
+      <div class="panel-top"><div class="panel-icon">⌁</div><div><h3>Phishing URL Checker</h3><span class="sub">LAB 6 · PHISHTANK</span></div></div>
+      <p class="panel-desc">Check URL characteristics and any configured phishing-intelligence lookup.</p>
+      <form id="urlForm">
+        <label class="label" for="url">TARGET URL</label>
+        <div class="input-row">
+          <input class="field" id="url" name="url" placeholder="https://example.com" required>
+          <button class="btn primary" type="submit">Analyze ↗</button>
+        </div>
+      </form>
+      <pre class="result" id="urlResult" aria-live="polite">Awaiting URL input…</pre>
+    </section>
+
+    <section class="panel" id="domain-analyzer">
+      <div class="panel-top"><div class="panel-icon">◎</div><div><h3>Domain Intelligence</h3><span class="sub">LABS 4 &amp; 7</span></div></div>
+      <p class="panel-desc">Review domain signals, technology information, reputation references, and historical snapshots.</p>
+      <form id="domainForm">
+        <label class="label" for="domain">DOMAIN NAME</label>
+        <div class="input-row">
+          <input class="field" id="domain" name="domain" placeholder="example.com" required>
+          <button class="btn primary" type="submit">Investigate ↗</button>
+        </div>
+      </form>
+      <pre class="result" id="domainResult" aria-live="polite">Awaiting domain input…</pre>
+    </section>
+  </div>
+</section>
+
+<!-- LAB MODULES -->
+<section class="section" id="modules">
+  <div class="section-head"><div><div class="kicker">EXPLORE WORKSPACE</div><h2>Seven Lab Modules</h2><p class="sub">Select any module to view its toolset.</p></div></div>
+  <div class="module-grid">
+    <a class="module-card" href="#lab2"><div class="module-icon">🕸️</div><div class="module-lab">LAB 02</div><h3>Social Network Analysis</h3><p>Gephi, APIs, graph data and visualization.</p></a>
+    <a class="module-card" href="#lab3"><div class="module-icon">🗂️</div><div class="module-lab">LAB 03</div><h3>Archives &amp; Web Security</h3><p>Wayback snapshots and authorized web testing.</p></a>
+    <a class="module-card" href="#lab4"><div class="module-icon">🌐</div><div class="module-lab">LAB 04</div><h3>Domain Trust Analysis</h3><p>WHOIS, website technologies and reputation sources.</p></a>
+    <a class="module-card" href="#lab5"><div class="module-icon">🖼️</div><div class="module-lab">LAB 05</div><h3>Social &amp; Image Investigation</h3><p>Tweet maps and reverse image searching.</p></a>
+    <a class="module-card" href="#lab6"><div class="module-icon">🔗</div><div class="module-lab">LAB 06</div><h3>Phishing Verification</h3><p>Look up suspicious URLs against reported records.</p></a>
+    <a class="module-card" href="#lab7"><div class="module-icon">🔒</div><div class="module-lab">LAB 07</div><h3>Privacy &amp; Trackers</h3><p>Browser privacy and domain ownership.</p></a>
+    <a class="module-card" href="#lab8"><div class="module-icon">📡</div><div class="module-lab">LAB 08</div><h3>Network Traffic Analysis</h3><p>Wireshark and packet inspection.</p></a>
+  </div>
+</section>
+
+<!-- TOOL INVENTORY -->
+<section class="section" id="all-tools">
+  <div class="section-head">
+    <div><div class="kicker">MASTER DIRECTORY</div><h2>All Tools &amp; Resources</h2><p class="sub">Search, filter, save and open links for all lab entries.</p></div>
+    <button class="outline-btn" id="resetFilters">Reset filters ↺</button>
+  </div>
+  <div class="search-panel">
+    <div class="search-row">
+      <div class="search-box"><span>⌕</span><input class="field" id="toolSearch" type="search" placeholder="Search tools, descriptions or labs…"></div>
+      <button class="outline-btn" id="compactBtn">↕ Density</button>
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All labs</button>
+      <button class="filter-btn" data-filter="2">Lab 2</button>
+      <button class="filter-btn" data-filter="3">Lab 3</button>
+      <button class="filter-btn" data-filter="4">Lab 4</button>
+      <button class="filter-btn" data-filter="5">Lab 5</button>
+      <button class="filter-btn" data-filter="6">Lab 6</button>
+      <button class="filter-btn" data-filter="7">Lab 7</button>
+      <button class="filter-btn" data-filter="8">Lab 8</button>
+      <button class="filter-btn" data-filter="favorites">★ Saved only</button>
+    </div>
+  </div>
+  <div class="inventory-meta" id="visibleCount">Showing 41 numbered entries</div>
+  <div id="toolInventory"></div>
+  <div class="empty" id="emptyState">No tools match your search. Try another keyword or reset the filters.</div>
+
+  <section id="extraTools" class="section">
+    <div class="kicker">SUPPLEMENTARY REFERENCES</div>
+    <div class="tool-lab">
+      <div class="lab-heading"><span class="lab-badge">EXTRA</span><span class="lab-title">Burp Suite Features &amp; Trust References</span><span class="lab-count">5 links</span></div>
+      <div class="tool-grid" id="extraGrid"></div>
+    </div>
+  </section>
+</section>
+
+<footer class="footer">
+  <span>SOCIALSHIELD · COLLEGE PROJECT · PSOSM LABS 2–8</span>
+  <span>Educational use only · Indicators are not guarantees of safety</span>
+</footer>
+</main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// Every entry: name, URL, description.
+const labs = [
+{ id:2, title:"Data Collection from Online Social Media", tools:[
+["Gephi","https://gephi.org/","Open-source network analysis and visualization."],
+["Twitter API / X API","https://developer.x.com/en/docs","Social data access subject to current API permissions."],
+["Facebook Graph API","https://developers.facebook.com/docs/graph-api/","API for permitted Facebook data."],
+["Tweepy","https://www.tweepy.org/","Python library for supported Twitter/X API use."],
+["NodeXL","https://www.smrfoundation.org/nodexl/","Social network analysis and graph exploration."],
+["Netvizz — Tool Archive","https://wiki.digitalmethods.net/Dmi/ToolDatabase","Historical lab reference; original service may no longer be available."],
+["GitHub","https://github.com/","Repository hosting and dataset source."]
+]},
+{ id:3, title:"Web Archives & Vulnerability Testing", tools:[
+["Wayback Machine","https://web.archive.org/","Browse archived versions of public webpages."],
+["Burp Suite","https://portswigger.net/burp","Web application testing and traffic analysis."],
+["Web Browser — Chrome example","https://www.google.com/chrome/","Browser for archives and authorized test applications."],
+["OWASP Juice Shop","https://owasp.org/www-project-juice-shop/","Intentionally vulnerable security training application."],
+["DVWA — Damn Vulnerable Web Application","https://github.com/digininja/DVWA","Controlled web security testing environment."],
+["Kali Linux","https://www.kali.org/","Security-focused Linux distribution."],
+["Windows","https://www.microsoft.com/windows","Operating system listed as a lab environment."]
+]},
+{ id:4, title:"Comprehensive Domain Analysis", tools:[
+["WHOIS Lookup","https://www.whois.com/","Public domain-registration lookup."],
+["ScamAdviser","https://www.scamadviser.com/","Third-party reputation and risk signals."],
+["BuiltWith","https://builtwith.com/","Website technology lookup; API access may need a key."],
+["Trustpilot","https://www.trustpilot.com/","Customer reviews and business reputation."],
+["Google Reviews","https://www.google.com/maps","Review source named in the manual."],
+["Facebook","https://www.facebook.com/","Social information subject to platform permissions."],
+["Python","https://www.python.org/","Programming language for analysis."],
+["Jupyter Notebook","https://jupyter.org/","Interactive development environment."],
+["Visual Studio Code","https://code.visualstudio.com/","Code editor and development environment."],
+["Requests","https://requests.readthedocs.io/","Python HTTP client library."],
+["BeautifulSoup4","https://www.crummy.com/software/BeautifulSoup/bs4/doc/","HTML/XML parsing library."],
+["WHOIS Python Library","https://pypi.org/project/python-whois/","Python package for available WHOIS data."],
+["Scikit-learn","https://scikit-learn.org/","Machine learning and data analysis."],
+["Matplotlib","https://matplotlib.org/","Python charts and visualizations."],
+["Search Engines — Google example","https://www.google.com/","Web research and company information."],
+["Social Media Platforms — Meta reference","https://about.meta.com/technologies/","Social platform reference; data access depends on permissions."]
+]},
+{ id:5, title:"Social Media Monitoring & Image Search", tools:[
+["One Million Tweet Map","https://onemilliontweetmap.com/","Map-based tweet visualization, subject to service availability."],
+["TinEye","https://tineye.com/","Reverse image search to discover image appearances."],
+["TinEye Browser Extensions","https://tineye.com/extensions","Extension information for supported browsers."]
+]},
+{ id:6, title:"Phishing URL Verification", tools:[
+["PhishTank","https://phishtank.org/","Community phishing URL reporting and lookup."],
+["Web Browser — Chrome example","https://www.google.com/chrome/","Browser to submit a copied URL for checking."]
+]},
+{ id:7, title:"Domain Ownership & Tracker Blocking", tools:[
+["WHOIS Lookup Website","https://www.whois.com/","Repeated WHOIS reference from Lab 7."],
+["Privacy Badger","https://privacybadger.org/","Browser extension designed to block online trackers."],
+["Google Chrome","https://www.google.com/chrome/","Browser option named in the lab."],
+["Mozilla Firefox","https://www.mozilla.org/firefox/","Browser option named in the lab."]
+]},
+{ id:8, title:"Network Traffic Analysis", tools:[
+["Wireshark","https://www.wireshark.org/","Network packet capture and protocol analysis."],
+["Network Interface Card (NIC) — Intel Reference","https://www.intel.com/content/www/us/en/products/details/ethernet.html","Example hardware reference; a NIC is physical equipment."]
+]}
+];
+
+const extras = [
+["Burp Suite Proxy Documentation","https://portswigger.net/burp/documentation/desktop/tools/proxy","Intercept requests in an authorized lab."],
+["Burp Suite Repeater Documentation","https://portswigger.net/burp/documentation/desktop/tools/repeater","Modify and resend requests in a controlled lab."],
+["Burp Suite HTTP History","https://portswigger.net/burp/documentation/desktop/tools/proxy/http-history","Review captured requests and responses."],
+["Norton","https://in.norton.com/","Trust-seal example cited in domain verification."],
+["McAfee","https://www.mcafee.com/","Trust-seal example cited in domain verification."]
+];
+
+const $ = selector => document.querySelector(selector);
+let selectedFilter = "all";
+let compact = false;
+let favourites = new Set();
+
+try {
+  favourites = new Set(JSON.parse(localStorage.getItem("socialshield-favourites") || "[]"));
+} catch(error) {}
+
+const cards = [];
+let toolNumber = 0;
+
+function toast(message) {
+  const el = $("#toast");
+  el.textContent = message;
+  el.classList.add("show");
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => el.classList.remove("show"), 2600);
+}
+
+function createToolCard(tool, number, labId, supplementary=false) {
+  const [name, url, description] = tool;
+  const article = document.createElement("article");
+  article.className = "tool-item";
+  article.dataset.lab = supplementary ? "extra" : String(labId);
+  article.dataset.search = (name + " " + description + " Lab " + labId).toLowerCase();
+
+  const badge = document.createElement("span");
+  badge.className = "tool-no";
+  badge.textContent = supplementary ? "+" : String(number).padStart(2, "0");
+
+  const content = document.createElement("div");
+  content.className = "tool-content";
+
+  const link = document.createElement("a");
+  link.className = "tool-name";
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = name + " ↗";
+
+  const desc = document.createElement("span");
+  desc.className = "tool-desc";
+  desc.textContent = description;
+
+  const actions = document.createElement("div");
+  actions.className = "tool-actions";
+
+  const save = document.createElement("button");
+  save.type = "button";
+  save.className = "tiny-btn";
+  save.textContent = favourites.has(name) ? "★ Saved" : "☆ Save";
+  save.classList.toggle("saved", favourites.has(name));
+
+  save.addEventListener("click", () => {
+    if (favourites.has(name)) favourites.delete(name);
+    else favourites.add(name);
+
+    try {
+      localStorage.setItem("socialshield-favourites", JSON.stringify([...favourites]));
+    } catch(error) {}
+
+    updateFavourites();
+    filterCards();
+    toast(favourites.has(name) ? "Tool saved" : "Tool removed from saved list");
+  });
+
+  const copy = document.createElement("button");
+  copy.type = "button";
+  copy.className = "tiny-btn";
+  copy.textContent = "Copy link";
+  copy.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      toast("Link copied to clipboard");
+    } catch(error) {
+      toast(url);
+    }
+  });
+
+  actions.append(save, copy);
+  content.append(link, desc, actions);
+  article.append(badge, content);
+
+  cards.push({
+    article,
+    lab: supplementary ? "extra" : String(labId),
+    name
+  });
+
+  return article;
+}
+
+// Render all lab tool cards from data.
+labs.forEach(lab => {
+  const section = document.createElement("section");
+  section.className = "tool-lab";
+  section.id = "lab" + lab.id;
+  section.dataset.lab = String(lab.id);
+
+  const header = document.createElement("div");
+  header.className = "lab-heading";
+
+  const badge = document.createElement("span");
+  badge.className = "lab-badge";
+  badge.textContent = "LAB " + String(lab.id).padStart(2, "0");
+
+  const title = document.createElement("span");
+  title.className = "lab-title";
+  title.textContent = lab.title;
+
+  const count = document.createElement("span");
+  count.className = "lab-count";
+  count.textContent = lab.tools.length + " entries";
+
+  header.append(badge, title, count);
+
+  const grid = document.createElement("div");
+  grid.className = "tool-grid";
+
+  lab.tools.forEach(tool => {
+    toolNumber++;
+    grid.appendChild(createToolCard(tool, toolNumber, lab.id));
+  });
+
+  section.append(header, grid);
+  $("#toolInventory").appendChild(section);
+});
+
+extras.forEach(tool => {
+  $("#extraGrid").appendChild(createToolCard(tool, 0, "extra", true));
+});
+
+$("#mainTotal").textContent = toolNumber;
+$("#heroTotal").textContent = toolNumber + extras.length;
+
+function updateFavourites() {
+  $("#favCount").textContent = favourites.size;
+  $("#favNavCount").textContent = favourites.size;
+
+  cards.forEach(({article, name}) => {
+    const button = article.querySelector(".tiny-btn");
+    if (button) {
+      button.textContent = favourites.has(name) ? "★ Saved" : "☆ Save";
+      button.classList.toggle("saved", favourites.has(name));
+    }
+  });
+}
+
+function filterCards() {
+  const query = $("#toolSearch").value.trim().toLowerCase();
+  let visible = 0;
+  let visibleExtra = 0;
+
+  cards.forEach(({article, lab, name}) => {
+    const textMatch = !query || article.dataset.search.includes(query);
+    const labMatch = selectedFilter === "all" ||
+      selectedFilter === "favorites" || lab === selectedFilter;
+    const favMatch = selectedFilter !== "favorites" || favourites.has(name);
+    const show = textMatch && labMatch && favMatch;
+
+    article.hidden = !show;
+
+    if (show) {
+      if (lab === "extra") visibleExtra++;
+      else visible++;
+    }
+  });
+
+  document.querySelectorAll("#toolInventory .tool-lab").forEach(section => {
+    section.hidden = ![...section.querySelectorAll(".tool-item")].some(card => !card.hidden);
+  });
+
+  $("#extraTools").hidden = visibleExtra === 0;
+  $("#emptyState").style.display = visible + visibleExtra ? "none" : "block";
+
+  $("#visibleCount").textContent =
+    selectedFilter === "all" && !query
+      ? `Showing ${toolNumber} numbered entries + ${extras.length} supplementary references`
+      : `Showing ${visible + visibleExtra} matching entries`;
+}
+
+function setFilter(value) {
+  selectedFilter = value;
+  document.querySelectorAll(".filter-btn").forEach(button => {
+    button.classList.toggle("active", button.dataset.filter === value);
+  });
+  filterCards();
+}
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+  button.addEventListener("click", () => setFilter(button.dataset.filter));
+});
+
+$("#toolSearch").addEventListener("input", filterCards);
+
+$("#resetFilters").addEventListener("click", () => {
+  $("#toolSearch").value = "";
+  setFilter("all");
+  toast("Filters reset");
+});
+
+$("#favBtn").addEventListener("click", () => {
+  setFilter("favorites");
+  $("#all-tools").scrollIntoView({behavior: "smooth"});
+});
+
+$("#sidebarFav").addEventListener("click", () => {
+  setFilter("favorites");
+  $("#all-tools").scrollIntoView({behavior: "smooth"});
+  document.body.classList.remove("menu-open");
+});
+
+$("#jumpTools").addEventListener("click", () => {
+  $("#all-tools").scrollIntoView({behavior: "smooth"});
+});
+
+$("#compactBtn").addEventListener("click", () => {
+  compact = !compact;
+  document.body.classList.toggle("compact", compact);
+  toast(compact ? "Compact layout enabled" : "Comfortable layout enabled");
+});
+
+$("#menuBtn").addEventListener("click", () => {
+  document.body.classList.toggle("menu-open");
+});
+
+document.querySelectorAll(".nav-link[href^='#']").forEach(link => {
+  link.addEventListener("click", () => document.body.classList.remove("menu-open"));
+});
+
+$("#exportCsv").addEventListener("click", () => {
+  const rows = [["Lab", "Tool", "Description", "URL"]];
+
+  labs.forEach(lab => {
+    lab.tools.forEach(tool => rows.push(["Lab " + lab.id, ...tool]));
+  });
+  extras.forEach(tool => rows.push(["Supplementary", ...tool]));
+
+  const escapeCsv = value => '"' + String(value).replace(/"/g, '""') + '"';
+  const csv = rows.map(row => row.map(escapeCsv).join(",")).join("\r\n");
+  const blob = new Blob([csv], {type: "text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = "socialshield-tools.csv";
+  anchor.click();
+  URL.revokeObjectURL(url);
+  toast("Tool inventory exported");
+});
+
+function updateClock() {
+  $("#clock").textContent = "LOCAL TIME " +
+    new Date().toLocaleTimeString([], {hour12: false});
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+document.addEventListener("keydown", event => {
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+    event.preventDefault();
+    $("#toolSearch").focus();
+    $("#all-tools").scrollIntoView({behavior: "smooth"});
+  }
+
+  if (event.key === "/" &&
+      !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
+    event.preventDefault();
+    $("#toolSearch").focus();
+  }
+
+  if (event.key === "Escape") {
+    document.body.classList.remove("menu-open");
+  }
+});
+
+// Connect to the Flask API endpoints. No results are fabricated.
+function connectForm(formId, endpoint, inputId, resultId, key) {
+  const form = $("#" + formId);
+  const output = $("#" + resultId);
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const value = $("#" + inputId).value.trim();
+    if (!value) {
+      output.textContent = "Please enter a value.";
+      return;
+    }
+
+    output.textContent = "Contacting SocialShield backend…";
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({[key]: value})
+      });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch(error) {
+        throw new Error("Server returned a non-JSON response.");
+      }
+
+      output.textContent = JSON.stringify(data, null, 2);
+
+      if (!response.ok) toast("Request failed: HTTP " + response.status);
+    } catch(error) {
+      output.textContent =
+        "Request could not be completed.\n" + error.message +
+        "\nEnsure Flask is running and the endpoint exists.";
+      toast("Backend request failed");
+    }
+  });
+}
+
+connectForm("urlForm", "/api/url-check", "url", "urlResult", "url");
+connectForm("domainForm", "/api/domain", "domain", "domainResult", "domain");
+
+updateFavourites();
+filterCards();
+</script>
+</body>
+</html>
